@@ -11,12 +11,6 @@ public class Counter : MonoBehaviour
     private bool _counting = false;
     private float _count = 0;
 
-    public void Stop()
-    {
-        if (_coroutine != null)
-            StopCoroutine(_coroutine);
-    }
-
     private void Start()
     {
         StartCoroutine(Increment());
@@ -27,6 +21,11 @@ public class Counter : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             _counting = _counting == false;
+        }
+
+        if (_counting == false && _coroutine != null)
+        {
+            StopCoroutine(_coroutine);
         }
     }
 
