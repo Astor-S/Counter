@@ -5,13 +5,21 @@ using TMPro;
 public class Counter : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _text;
-    
+
+    private Coroutine _coroutine;
+
     private bool _counting = false;
     private float _count = 0;
 
+    public void Stop()
+    {
+        if (_coroutine != null)
+            StopCoroutine(_coroutine);
+    }
+
     private void Start()
     {
-        StartCoroutine(IncrementCounter());
+        StartCoroutine(Increment());
     }
 
     private void Update()
@@ -22,13 +30,15 @@ public class Counter : MonoBehaviour
         }
     }
 
-    IEnumerator IncrementCounter()
+    private IEnumerator Increment()
     {
         bool isRunning = true;
+        
+        float frequencySecond = 0.5f;
 
         while (isRunning)
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(frequencySecond);
 
             if (_counting)
             {
