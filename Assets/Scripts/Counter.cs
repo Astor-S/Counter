@@ -7,13 +7,16 @@ public class Counter : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _text;
 
     private Coroutine _coroutine;
+    private WaitForSeconds _wait;
 
     private bool _counting = false;
+    
     private float _count = 0;
-
+    private float _delay = 0.5f;
+    
     private void Start()
     {
-        StartCoroutine(Increment());
+        _wait = new WaitForSeconds(_delay);
     }
 
     private void Update()
@@ -21,23 +24,25 @@ public class Counter : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             _counting = _counting == false;
-        }
-
-        if (_counting == false && _coroutine != null)
-        {
-            StopCoroutine(_coroutine);
+            
+            if (_counting)
+            {
+                _coroutine = StartCoroutine(Increment());
+            }
+            else
+            {
+                StopCoroutine(_coroutine);
+            }
         }
     }
 
     private IEnumerator Increment()
     {
         bool isRunning = true;
-        
-        float frequencySecond = 0.5f;
 
         while (isRunning)
         {
-            yield return new WaitForSeconds(frequencySecond);
+            yield return _wait;
 
             if (_counting)
             {
