@@ -14,7 +14,7 @@ public class Counter : MonoBehaviour
     private float _count = 0;
     private float _delay = 0.5f;
     
-    private void Start()
+    private void Awake()
     {
         _wait = new WaitForSeconds(_delay);
     }
@@ -23,15 +23,15 @@ public class Counter : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            _counting = _counting == false;
-            
             if (_counting)
             {
-                _coroutine = StartCoroutine(Increment());
+                StopCoroutine(_coroutine);
+                _counting = false;
             }
             else
             {
-                StopCoroutine(_coroutine);
+                _coroutine = StartCoroutine(Increment());
+                _counting = true;
             }
         }
     }
